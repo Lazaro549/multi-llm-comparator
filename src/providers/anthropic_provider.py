@@ -7,4 +7,5 @@ class AnthropicProvider(BaseProvider):
         super().__init__("Claude")
 
     async def generate(self, prompt: str) -> str:
-        return f"[Claude mock] {prompt}"
+        import html
+        return f"[Claude mock] {html.escape(prompt)}"

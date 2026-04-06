@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, field_validator
 import asyncio
 
 from src.core.router import MultiLLMRouter
@@ -15,6 +15,15 @@ app = FastAPI()
 class PromptRequest(BaseModel):
     prompt: str
 
+    @field_validator("prompt")
+    @classmethod
+    def validate_prompt(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("El prompt no puede estar vacío")
+        if len(v) > 10000:
+            raise ValueError("El prompt excede el límite de caracteres")
+        return v.strip()
+
 
 @app.get("/")
 def root():
@@ -23,7 +32,8 @@ def root():
 
 @app.post("/compare")
 async def compare(request: PromptRequest):
-    prompt = request.prompt
+    import html
+    prompt = html.escape(request.prompt)
 
     providers = [
         OpenAIProvider(),

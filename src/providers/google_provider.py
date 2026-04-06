@@ -7,4 +7,5 @@ class GoogleProvider(BaseProvider):
         super().__init__("Gemini")
 
     async def generate(self, prompt: str) -> str:
-        return f"[Gemini mock] {prompt}"
+        import html
+        return f"[Gemini mock] {html.escape(prompt)}"

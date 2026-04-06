@@ -9,4 +9,5 @@ class OpenAIProvider(BaseProvider):
 
     async def generate(self, prompt: str) -> str:
         # TODO: integrar OpenAI SDK real
-        return f"[OpenAI mock] {prompt}"
+        import html
+        return f"[OpenAI mock] {html.escape(prompt)}"
