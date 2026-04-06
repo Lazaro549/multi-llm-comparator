@@ -87,7 +87,7 @@ npm run start
 or
 
 ```bash
-python main.py
+python src/cli/main.py
 ```
 
 Then:
